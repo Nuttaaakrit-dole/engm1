@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Quiz Set 2 — สกร. อำเภอโนนสัง ม.ต้น</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #004D40; --primary-dark: #00251A; --primary-light: #E0F2F1;
+    --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #97C459;
+    --red: #A32D2D; --red-light: #FCEBEB; --red-mid: #F09595;
+    --amber-light: #FAEEDA; --amber: #633806;
+    --gray-bg: #f5f4f0; --gray-card: #fff; --gray-border: #e0e0e0;
+    --text: #1a1a1a; --text-muted: #666;
+  }
+  body { font-family: 'Sarabun', sans-serif; background: var(--gray-bg); color: var(--text); padding-bottom: 40px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 16px; }
+  .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 16px; padding: 24px; color: #fff; margin-bottom: 16px; position: relative; overflow: hidden; }
+  .header::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.07); }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .set-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35); padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-left: 6px; }
+  .title { font-size: 22px; font-weight: 700; margin-bottom: 5px; line-height: 1.4; }
+  .subtitle { font-size: 14px; opacity: 0.9; }
+  .card { background: var(--gray-card); border-radius: 16px; padding: 24px; border: 1px solid var(--gray-border); margin-bottom: 16px; }
+  .inp-group { margin-bottom: 16px; text-align: left; }
+  .inp-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+  .inp-text { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--gray-border); font-family: 'Sarabun', sans-serif; font-size: 16px; background: #fafafa; }
+  .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-family: 'Sarabun', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary { background: #e0e0e0; color: var(--text); width: 48%; }
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; gap: 10px; }
+  .nav-buttons .btn-primary { width: 48%; }
+  .prog-text { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .prog-bar { background: #eee; height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+  .prog-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.3s; }
+  .q-badge { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .q-num-circle { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); font-size: 13px; font-weight: 700; margin-right: 8px; vertical-align: middle; flex-shrink: 0; }
+  .q-text { font-size: 17px; font-weight: 600; margin-bottom: 16px; line-height: 1.8; display: flex; align-items: flex-start; gap: 4px; }
+  .q-passage { background: #E0F2F1; border-left: 4px solid var(--primary); border-radius: 0 10px 10px 0; padding: 14px 16px; font-size: 15px; line-height: 2; color: #222; margin-bottom: 16px; }
+  .q-dialogue { background: #E0F2F1; border-radius: 12px; padding: 14px 16px; font-size: 15px; line-height: 2.2; color: #222; margin-bottom: 16px; border: 1px solid #80CBC4; }
+  .q-poem { background: #E0F2F1; border-left: 4px solid var(--primary); border-radius: 0 10px 10px 0; padding: 14px 20px; font-size: 15px; line-height: 2.4; color: #222; margin-bottom: 16px; font-style: italic; }
+  .spkr { font-weight: 700; color: var(--primary-dark); }
+  .choice { display: flex; align-items: center; background: #fff; border: 2px solid var(--gray-border); padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; font-size: 15px; font-family: 'Sarabun', sans-serif; text-align: left; transition: 0.2s; width: 100%; }
+  .choice:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+  .choice.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+  .choice.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 600; }
+  .choice.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); font-weight: 600; }
+  .choice:disabled { cursor: not-allowed; }
+  .c-let { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 50%; margin-right: 12px; font-weight: 700; font-size: 13px; flex-shrink: 0; transition: 0.2s; }
+  .choice.selected .c-let { background: var(--primary); color: #fff; }
+  .choice.correct .c-let { background: var(--green); color: #fff; }
+  .choice.wrong .c-let { background: var(--red); color: #fff; }
+  .feedback { padding: 16px; border-radius: 12px; font-size: 14px; line-height: 1.7; margin-top: 16px; }
+  .feedback.ok { background: var(--green-light); border: 1px solid var(--green-mid); color: #1f3a09; }
+  .feedback.no { background: var(--red-light); border: 1px solid var(--red-mid); color: #521717; }
+  .fb-explain { display: block; margin-top: 6px; font-size: 13px; opacity: 0.85; }
+  .dot-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; justify-content: center; }
+  .dot { width: 32px; height: 32px; border-radius: 8px; border: none; font-family: 'Sarabun', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; background: #e0e0e0; color: var(--text); transition: 0.15s; }
+  .dot.active { background: var(--primary); color: #fff; transform: scale(1.1); }
+  .dot.ok { background: var(--green); color: #fff; }
+  .dot.no { background: var(--red); color: #fff; }
+  .cert-header { font-size: 16px; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+  .cert-name { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .cert-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .score-big { font-size: 56px; font-weight: 700; color: var(--primary); line-height: 1; }
+  .score-denom { font-size: 20px; color: var(--text-muted); margin-bottom: 8px; }
+  .grade-pill { display: inline-block; padding: 5px 20px; border-radius: 99px; font-size: 14px; font-weight: 700; }
+  .grade-A { background: var(--green-light); color: var(--green); }
+  .grade-B { background: var(--primary-light); color: var(--primary-dark); }
+  .grade-C { background: var(--amber-light); color: var(--amber); }
+  .grade-D { background: var(--red-light); color: var(--red); }
+  .feedback-box { background: var(--primary-light); border: 1px solid #80CBC4; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.7; color: var(--primary-dark); margin-bottom: 20px; text-align: left; }
+  .grid-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+  .stat-box { background: #f9f9f9; padding: 16px 10px; border-radius: 12px; text-align: center; border: 1px solid var(--gray-border); }
+  .stat-num { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .slbl { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .review-title { font-size: 17px; font-weight: 700; padding-bottom: 12px; border-bottom: 1px solid var(--gray-border); margin-bottom: 14px; }
+  .review-item { padding: 14px 0; border-bottom: 1px solid var(--gray-border); text-align: left; }
+  .review-item:last-child { border-bottom: none; }
+  .r-q { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+  .r-a { font-size: 14px; margin-bottom: 4px; }
+  .r-exp { font-size: 13px; color: var(--text-muted); background: #f5f5f5; padding: 10px; border-radius: 8px; margin-top: 8px; line-height: 1.7; }
+  .ri-tick { width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .ri-ok { background: var(--green-light); color: var(--green); }
+  .ri-no { background: var(--red-light); color: var(--red); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <span class="badge">N-NET • สกร. อำเภอโนนสัง • ม.ต้น</span>
+      <span class="set-badge">Set 2</span>
+    </div>
+    <div class="title">🌏 English Quiz — ชุดที่ 2</div>
+    <div class="subtitle" id="subtitle-text">ระดับประยุกต์ใช้ขั้นสูง — สุ่มข้อสอบและวิเคราะห์ผลรายบุคคล</div>
+  </div>
+  <div id="app"></div>
+</div>
+<script>
+const database = [
+  {
+    cat: "Reading Comprehension",
+    ptype: "passage",
+    passage: "In 2018, a group of international researchers published a study showing that forests absorb nearly 2.6 billion tonnes of carbon dioxide each year — roughly one-third of all emissions released by burning fossil fuels. However, the same study warned that deforestation is rapidly reducing this capacity. In some regions, forests have already shifted from being carbon 'sinks' to carbon 'sources', meaning they now release more carbon than they absorb.",
+    q: "According to the passage, which situation would be MOST alarming for the environment?",
+    choices: [
+      "A forest releasing more carbon dioxide than it absorbs",
+      "A forest absorbing 2.6 billion tonnes of CO₂ per year",
+      "Countries burning fossil fuels to produce electricity",
+      "Researchers publishing studies about deforestation"
+    ],
+    a: 0,
+    exp: "The passage specifically warns about forests becoming carbon 'sources' — releasing MORE than absorbing. This directly reverses their role as climate protectors. B describes the GOOD scenario. C is mentioned but not described as alarming in this context. D is neutral."
+  },
+  {
+    cat: "Reading — Critical Thinking",
+    ptype: "passage",
+    passage: "A new app claims it can detect health problems by analysing a 30-second voice recording. The company says it has tested the app on 10,000 users with '94% accuracy.' Several doctors have praised it as revolutionary, while health authorities say more clinical trials are needed before it can be recommended to the public.",
+    q: "A critical reader would MOST likely question which aspect of this claim?",
+    choices: [
+      "Whether '94% accuracy' was tested on diverse groups and what the 6% errors mean medically",
+      "Whether the app costs too much for ordinary people",
+      "Whether the company has enough employees to manage the app",
+      "Whether the doctors who praised it were paid to do so"
+    ],
+    a: 0,
+    exp: "Critical reading evaluates the quality of evidence. '94% accuracy' sounds impressive but: Who were the 10,000 users? What were the 6% errors (false negatives = missed diseases = dangerous)? Diverse populations? D is a suspicion without evidence — that's bias, not critical thinking."
+  },
+  {
+    cat: "Vocabulary in Context",
+    ptype: "passage",
+    passage: "Despite the setbacks, the team remained resilient and continued to push forward with their project.",
+    q: "The word 'resilient' means MOST NEARLY:",
+    choices: [
+      "Able to recover quickly from difficulties",
+      "Easily discouraged by problems",
+      "Highly intelligent and creative",
+      "Careful and well-organised"
+    ],
+    a: 0,
+    exp: "Context clue: 'Despite setbacks... continued to push forward' = they didn't give up. 'Resilient' = able to bounce back. B is the antonym. C/D describe different qualities not supported by the context."
+  },
+  {
+    cat: "Grammar — Modal Verbs",
+    ptype: "none",
+    passage: "",
+    q: "The bridge was closed. There ______ been an accident.",
+    choices: [
+      "must have",
+      "should have",
+      "would have",
+      "could have"
+    ],
+    a: 0,
+    exp: "'Must have + V3' = logical deduction about the past (we are almost certain this is true based on evidence). 'Should have' = advice/regret. 'Would have' = hypothetical. 'Could have' = possibility (less certain than 'must have'). The bridge being closed = strong evidence → must have."
+  },
+  {
+    cat: "Grammar — Gerunds & Infinitives",
+    ptype: "none",
+    passage: "",
+    q: "I remember ______ the key on the table, but now I can't find it.",
+    choices: [
+      "leaving",
+      "to leave",
+      "left",
+      "leave"
+    ],
+    a: 0,
+    exp: "'Remember + gerund (V-ing)' = remember a past action that actually happened. 'Remember + infinitive (to V)' = remember to do something in the future. Since the speaker is recalling a past action (they DID leave the key), use gerund: 'remember leaving'."
+  },
+  {
+    cat: "Grammar — Phrasal Verbs",
+    ptype: "none",
+    passage: "",
+    q: "The meeting was ______ because the manager was ill.",
+    choices: [
+      "called off",
+      "called up",
+      "called on",
+      "called out"
+    ],
+    a: 0,
+    exp: "'Call off' = cancel an event. 'Call up' = phone someone / summon for military. 'Call on' = visit someone / ask someone to speak. 'Call out' = shout / challenge someone. Only A fits 'meeting was cancelled due to illness'."
+  },
+  {
+    cat: "Dialogue & Communication",
+    ptype: "dialogue",
+    passage: '<span class="spkr">Receptionist:</span> "Good morning. How may I help you?"\n<span class="spkr">Patient:</span> "I\'d like to make an appointment with Dr. Smith, please."\n<span class="spkr">Receptionist:</span> "Certainly. Is Tuesday at 3 p.m. convenient for you?"\n<span class="spkr">Patient:</span> "I\'m afraid I have a prior engagement then. Could we try Wednesday morning?"',
+    q: "What does 'I have a prior engagement' mean in this context?",
+    choices: [
+      "The patient already has something planned for Tuesday",
+      "The patient is engaged to be married",
+      "The patient has already met Dr. Smith before",
+      "The patient finds Tuesday inconvenient due to work location"
+    ],
+    a: 0,
+    exp: "'Prior engagement' is a formal/polite phrase meaning 'I already have plans/commitments.' It does NOT mean engagement (to marry) — context clue: the patient is booking a doctor's appointment and proposes an alternative time. D adds information not in the text."
+  },
+  {
+    cat: "Dialogue & Communication",
+    ptype: "dialogue",
+    passage: '<span class="spkr">Alex:</span> "I think we should expand our business to three new cities next month."\n<span class="spkr">Riley:</span> "That\'s ambitious. Have we secured enough funding and staff to support that kind of growth?"',
+    q: "Riley's response is best described as:",
+    choices: [
+      "Cautiously questioning the feasibility of Alex's plan",
+      "Enthusiastically agreeing with Alex's idea",
+      "Rejecting Alex's proposal entirely",
+      "Changing the subject to a different business matter"
+    ],
+    a: 0,
+    exp: "'That's ambitious' = acknowledges the scale without direct praise or criticism. The questions about funding and staff = practical concerns, not flat rejection. B wrong (no enthusiasm). C wrong (asking questions ≠ rejecting). D wrong (questions are directly about the plan)."
+  },
+  {
+    cat: "Vocabulary — Synonyms & Antonyms",
+    ptype: "none",
+    passage: "",
+    q: "Which word is an ANTONYM of 'transparent'?",
+    choices: [
+      "Opaque",
+      "Clear",
+      "Visible",
+      "Obvious"
+    ],
+    a: 0,
+    exp: "'Transparent' = allowing light through / easy to see through / open/honest. Antonym = 'opaque' (blocking light / not clear / secretive). B/C/D are all synonyms or near-synonyms of transparent, making them strong distractors."
+  },
+  {
+    cat: "Reading — Identifying Evidence",
+    ptype: "passage",
+    passage: "A survey of 2,000 workers found that those who worked from home reported 23% higher productivity. However, the survey was conducted by a company that sells remote-work software, and participants were self-selected — meaning they volunteered to take part rather than being randomly chosen.",
+    q: "Why might the survey's findings be considered UNRELIABLE?",
+    choices: [
+      "The survey was funded by an interested party and participants were self-selected",
+      "The survey only had 2,000 participants, which is too small",
+      "Productivity cannot be measured accurately in any survey",
+      "Working from home has no effect on productivity"
+    ],
+    a: 0,
+    exp: "Two reliability issues: 1) Biased source (software company benefits from pro-remote findings) = conflict of interest. 2) Self-selection bias (volunteers are likely those who enjoy working from home). B is partially valid but 2,000 is actually a reasonable sample size. C/D are not supported by the text."
+  },
+  {
+    cat: "Grammar — Subject-Verb Agreement",
+    ptype: "none",
+    passage: "",
+    q: "Neither the students nor the teacher ______ prepared for the sudden change.",
+    choices: [
+      "was",
+      "were",
+      "are",
+      "have been"
+    ],
+    a: 0,
+    exp: "With 'Neither...nor', the verb agrees with the CLOSER subject. 'The teacher' is singular and closest to the verb → use 'was'. If it were 'Neither the teacher nor the students', the answer would be 'were'. This is a key grammar trap in English."
+  },
+  {
+    cat: "Grammar — Prepositions",
+    ptype: "none",
+    passage: "",
+    q: "She has been working ______ this project ______ the beginning of the year.",
+    choices: [
+      "on / since",
+      "at / from",
+      "for / since",
+      "on / for"
+    ],
+    a: 0,
+    exp: "'Work on a project' = correct preposition for tasks. 'Since + point in time' (beginning of the year = specific time point). 'For + duration' (for 3 months). C is wrong because 'for the beginning' doesn't make sense. D 'on / for' would need a duration, not a point in time."
+  },
+  {
+    cat: "Reading — Tone & Author's Purpose",
+    ptype: "passage",
+    passage: "Every single penny of taxpayer money spent on space exploration is a penny stolen from the poor, the sick, and the vulnerable. While children go hungry and hospitals collapse from lack of funding, governments choose to blast rockets into the void for the vanity of scientists and politicians.",
+    q: "The tone of this text is best described as:",
+    choices: [
+      "Strongly biased and emotionally charged against space exploration",
+      "Objective and balanced in presenting both sides",
+      "Cautiously supportive of redirecting some space funds",
+      "Academic and data-driven in its argument"
+    ],
+    a: 0,
+    exp: "Loaded words: 'stolen from the poor', 'children go hungry', 'blast into the void', 'vanity of scientists' = extreme emotional language + one-sided. No counter-argument = NOT balanced. No data = NOT academic. The writer clearly opposes space exploration with emotional rhetoric."
+  },
+  {
+    cat: "Vocabulary — Phrasal Meaning",
+    ptype: "none",
+    passage: "",
+    q: "The new employee quickly got ______ with her colleagues.",
+    choices: [
+      "along",
+      "away",
+      "over",
+      "through"
+    ],
+    a: 0,
+    exp: "'Get along (with)' = have a good relationship with someone. 'Get away' = escape/leave. 'Get over' = recover from something (illness/breakup). 'Get through' = finish / survive / contact someone. Only A fits the social context of a new employee and colleagues."
+  },
+  {
+    cat: "Writing — Formal vs. Informal",
+    ptype: "none",
+    passage: "",
+    q: "Which sentence is written in an appropriate FORMAL style for a job application?",
+    choices: [
+      "I am writing to express my keen interest in the position of Marketing Assistant.",
+      "Hey! I really wanna work for you guys — pick me!",
+      "I think I'm pretty good at marketing and stuff, so yeah.",
+      "You should totally hire me because I'm awesome at this job."
+    ],
+    a: 0,
+    exp: "Formal writing: full sentences, standard vocabulary, no slang ('wanna', 'guys', 'yeah', 'totally', 'awesome'). A uses: 'I am writing to express' (formal opening), 'keen interest' (sophisticated vocabulary), 'the position of' (formal job title reference). B/C/D use casual/slang language."
+  },
+  {
+    cat: "Grammar — Question Tags",
+    ptype: "none",
+    passage: "",
+    q: "You haven't eaten anything today, ______?",
+    choices: [
+      "have you",
+      "haven't you",
+      "did you",
+      "don't you"
+    ],
+    a: 0,
+    exp: "Question tag rule: if the main clause is NEGATIVE, the tag is POSITIVE (and vice versa). 'Haven't' = negative → tag must be positive = 'have you'. B 'haven't you' would be negative-negative (wrong). C/D use wrong auxiliaries — must match the main verb 'haven't' (present perfect)."
+  },
+  {
+    cat: "Reading — Fact vs Opinion",
+    ptype: "passage",
+    passage: "The Eiffel Tower was built in 1889 for the World's Fair in Paris. It stands 330 metres tall and attracts nearly 7 million visitors per year. It is, without a doubt, the most beautiful structure ever created by human hands.",
+    q: "Which sentence from the passage is a FACT, not an opinion?",
+    choices: [
+      "It stands 330 metres tall and attracts nearly 7 million visitors per year.",
+      "It is, without a doubt, the most beautiful structure ever created.",
+      "The Eiffel Tower is more interesting than any other monument.",
+      "Everyone who visits Paris must see the Eiffel Tower."
+    ],
+    a: 0,
+    exp: "Facts = verifiable, measurable. '330 metres' and '7 million visitors' are measurable data. B uses 'most beautiful' = subjective judgment = opinion. C/D add comparative/prescriptive statements not in the original passage and cannot be verified."
+  },
+  {
+    cat: "Dialogue & Communication",
+    ptype: "dialogue",
+    passage: '<span class="spkr">Host:</span> "Would you like some more dessert?"\n<span class="spkr">Guest:</span> "I really shouldn\'t, but... oh, go on then! It\'s absolutely delicious."',
+    q: "What does the guest's full response reveal?",
+    choices: [
+      "She hesitates due to politeness or diet concerns, but ultimately accepts because she enjoys it",
+      "She firmly declines the dessert",
+      "She is allergic to the dessert ingredients",
+      "She is being sarcastic when she says it is delicious"
+    ],
+    a: 0,
+    exp: "'I really shouldn't' = hesitation (health/diet/politeness). 'But... oh, go on then!' = she changes her mind and accepts. 'Absolutely delicious' = genuine praise (context gives no reason for sarcasm). This tests nuanced reading of natural speech patterns."
+  },
+  {
+    cat: "Grammar — Causatives",
+    ptype: "none",
+    passage: "",
+    q: "She ______ her hair ______ at the salon every month.",
+    choices: [
+      "has / cut",
+      "gets / cutting",
+      "makes / cut",
+      "lets / to cut"
+    ],
+    a: 0,
+    exp: "Causative 'have': have + object + past participle (V3) = someone does it FOR you. 'Has her hair cut' ✓. 'Get' also works: 'gets her hair cut'. B wrong (gets + V-ing). C 'make + object + base verb' = force. D 'let + object + base verb' = allow. Neither C nor D fits a hair salon context."
+  },
+  {
+    cat: "Reading — Application",
+    ptype: "passage",
+    passage: "Research shows that students who review their notes within 24 hours retain up to 80% of the material, compared to only 20% for those who wait a week. The 'spacing effect' also suggests that shorter, more frequent study sessions are more effective than a single long session before an exam.",
+    q: "Based on this passage, which student is using the MOST effective study strategy?",
+    choices: [
+      "Mia, who reviews her notes each evening and studies for 30 minutes daily",
+      "Tom, who reads all his notes the night before every exam",
+      "Ann, who highlights her textbook once and never reviews it again",
+      "Ben, who studies for five hours straight every Sunday"
+    ],
+    a: 0,
+    exp: "The passage gives two principles: 1) Review within 24 hours → Mia reviews each evening ✓. 2) Frequent short sessions > one long session → 30 minutes daily ✓. Tom, Ann, Ben all violate at least one principle. This is a direct application question requiring connecting theory to practice."
+  }
+];
+
+let state = { screen:'login', studentName:'', studentId:'', questions:[], answers:[], checked:[], current:0 };
+
+function shuffleArray(arr) {
+  let a = arr.slice();
+  for (let i = a.length-1; i > 0; i--) { let j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function startApp() {
+  const name = document.getElementById('s_name').value.trim();
+  if (!name) { alert('Please enter your name before starting.'); return; }
+  state.studentName = name;
+  state.studentId = document.getElementById('s_id').value || 'สกร. อำเภอโนนสัง';
+  document.getElementById('subtitle-text').innerText = 'ผู้เข้าสอบ: ' + state.studentName;
+  let shuffledDB = shuffleArray(database);
+  state.questions = shuffledDB.map(q => {
+    let correctText = q.choices[q.a];
+    let newChoices = shuffleArray(q.choices);
+    return { cat:q.cat, q:q.q, exp:q.exp, passage:q.passage, ptype:q.ptype, choices:newChoices, correctAnswer:newChoices.indexOf(correctText) };
+  });
+  state.answers = new Array(state.questions.length).fill(null);
+  state.checked = new Array(state.questions.length).fill(false);
+  state.current = 0; state.screen = 'quiz';
+  renderApp();
+}
+
+function renderApp() {
+  const app = document.getElementById('app');
+  if (state.screen==='login')  { app.innerHTML = loginHTML();  return; }
+  if (state.screen==='quiz')   { app.innerHTML = quizHTML();   return; }
+  if (state.screen==='result') { app.innerHTML = resultHTML(); return; }
+}
+
+function loginHTML() {
+  return `<div class="card" style="text-align:center;padding:40px 20px;">
+    <div style="font-size:60px;margin-bottom:10px;">🌏</div>
+    <h2 style="color:var(--primary);margin-bottom:6px;">English Quiz — Set 2</h2>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px;">ระดับมัธยมต้น • สกร. อำเภอโนนสัง<br>ระดับประยุกต์ใช้ขั้นสูง — สุ่มข้อสอบและตัวเลือกใหม่ทุกครั้ง</p>
+    <div class="inp-group">
+      <label class="inp-label">ชื่อ-นามสกุล (บังคับ)</label>
+      <input type="text" id="s_name" class="inp-text" placeholder="Enter your full name">
+    </div>
+    <div class="inp-group">
+      <label class="inp-label">รหัสนักศึกษา / สังกัด</label>
+      <input type="text" id="s_id" class="inp-text" value="สกร. อำเภอโนนสัง">
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="startApp()">เริ่มทำแบบทดสอบ 🚀</button>
+  </div>`;
+}
+
+function quizHTML() {
+  const total=state.questions.length, curr=state.current;
+  const q=state.questions[curr], ans=state.answers[curr], isChecked=state.checked[curr];
+  const pct=Math.round(((curr+1)/total)*100), L=['A','B','C','D'];
+  let ctxHTML='';
+  if (q.ptype==='passage')  ctxHTML=`<div class="q-passage">${q.passage}</div>`;
+  if (q.ptype==='dialogue') ctxHTML=`<div class="q-dialogue">${q.passage.replace(/\n/g,'<br>')}</div>`;
+  if (q.ptype==='poem')     ctxHTML=`<div class="q-poem">${q.passage.replace(/\n/g,'<br>')}</div>`;
+  let choicesHTML=q.choices.map((c,i)=>{
+    let cls='choice';
+    if (isChecked) { if(i===q.correctAnswer) cls+=' correct'; else if(i===ans) cls+=' wrong'; }
+    else if (i===ans) cls+=' selected';
+    return `<button class="${cls}" ${isChecked?'disabled':''} onclick="selectAnswer(${i})"><div class="c-let">${L[i]}</div><div>${c}</div></button>`;
+  }).join('');
+  let fbHTML='';
+  if (isChecked) {
+    fbHTML = ans===q.correctAnswer
+      ? `<div class="feedback ok">✅ <strong>Correct!</strong><span class="fb-explain">💡 ${q.exp}</span></div>`
+      : `<div class="feedback no">❌ <strong>Incorrect</strong> — The correct answer is: <strong>${q.choices[q.correctAnswer]}</strong><span class="fb-explain">💡 ${q.exp}</span></div>`;
+  }
+  const navLeft=curr>0?`<button class="btn btn-secondary" onclick="goPrev()">← Back</button>`:`<div style="width:48%"></div>`;
+  let navRight='';
+  if (isChecked) {
+    navRight=curr===total-1
+      ?`<button class="btn btn-primary" onclick="showResult()">See Results 🏆</button>`
+      :`<button class="btn btn-primary" onclick="goNext()">Next →</button>`;
+  } else {
+    navRight=`<button class="btn btn-primary" ${ans===null?'disabled':''} onclick="checkAnswer()">Check Answer ✓</button>`;
+  }
+  const dots=state.questions.map((_,i)=>{
+    let cls='dot'+(i===curr?' active':state.checked[i]?(state.answers[i]===state.questions[i].correctAnswer?' ok':' no'):'');
+    return `<button class="${cls}" onclick="jumpTo(${i})">${i+1}</button>`;
+  }).join('');
+  return `
+    <div class="card" style="padding:16px 20px;">
+      <div class="prog-text"><span>Question ${curr+1} of ${total}</span><span>✅ ${state.answers.filter(a=>a!==null).length} answered</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="card">
+      <div class="q-badge">${q.cat}</div>
+      ${ctxHTML}
+      <div class="q-text"><span class="q-num-circle">${curr+1}</span>${q.q.replace(/\n/g,'<br>')}</div>
+      <div>${choicesHTML}</div>
+      ${fbHTML}
+      <div class="nav-buttons">${navLeft}${navRight}</div>
+    </div>
+    <div class="dot-nav">${dots}</div>`;
+}
+
+function resultHTML() {
+  const total=state.questions.length;
+  let score=0, catStats={};
+  state.questions.forEach((q,i)=>{
+    if (!catStats[q.cat]) catStats[q.cat]={t:0,c:0};
+    catStats[q.cat].t++;
+    if (state.answers[i]===q.correctAnswer) { score++; catStats[q.cat].c++; }
+  });
+  const pct=Math.round((score/total)*100);
+  let grade,gc,msg;
+  if (pct>=80) { grade='Excellent (A)'; gc='grade-A'; msg='Outstanding! You have advanced English skills.'; }
+  else if (pct>=60) { grade='Good (B)'; gc='grade-B'; msg='Well done! Your analytical skills are developing well.'; }
+  else if (pct>=50) { grade='Fair (C)'; gc='grade-C'; msg='You passed. Study the explanations to strengthen weak areas.'; }
+  else { grade='Needs Work (D)'; gc='grade-D'; msg="Keep going — read each explanation carefully and try again!"; }
+  const weak=Object.entries(catStats).filter(([,v])=>v.t>0&&v.c/v.t<=0.5).map(([k])=>k);
+  const fbMsg=weak.length>0
+    ?`📉 <strong>Weak areas detected:</strong> You struggled with <strong>${weak.join(' and ')}</strong>. Focus your revision there.`
+    :`✨ <strong>Excellent performance!</strong> No major weak areas detected across all skill areas.`;
+  const today=new Date(), dateStr=`${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()+543}`;
+  const review=state.questions.map((q,i)=>{
+    const ok=state.answers[i]===q.correctAnswer, ua=state.answers[i]!==null?q.choices[state.answers[i]]:'(No answer)';
+    return `<div class="review-item">
+      <div class="r-q"><span class="ri-tick ${ok?'ri-ok':'ri-no'}">${ok?'✓':'✗'}</span>Q${i+1}: ${q.q.replace(/\n/g,' ')}</div>
+      <div class="r-a" style="color:var(--text-muted)">Your answer: ${ua}</div>
+      <div class="r-a" style="color:var(--green);font-weight:600;">✅ Answer: ${q.choices[q.correctAnswer]}</div>
+      <div class="r-exp">💡 ${q.exp}</div>
+    </div>`;
+  }).join('');
+  return `
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div class="cert-header">English Quiz Results — Set 2</div>
+      <div class="cert-name">${state.studentName}</div>
+      <div class="cert-meta">${state.studentId} | Date: ${dateStr}</div>
+      <div style="font-size:60px;margin:10px 0;">${pct>=50?'🏆':'📖'}</div>
+      <div class="score-big">${score}</div>
+      <div class="score-denom">out of ${total} (${pct}%)</div>
+      <div style="margin:16px 0;"><span class="grade-pill ${gc}">${grade}</span></div>
+      <div style="color:var(--text-muted);margin-bottom:24px;">${msg}</div>
+      <div class="feedback-box">${fbMsg}</div>
+      <div class="grid-stats">
+        <div class="stat-box"><div class="stat-num" style="color:var(--green)">${score}</div><div class="slbl">Correct</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--red)">${total-score}</div><div class="slbl">Wrong</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${pct}%</div><div class="slbl">Score</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="location.reload()">🔄 Try Again (New Shuffle)</button>
+    </div>
+    <div class="card" style="margin-top:4px;">
+      <div class="review-title">📋 Full Answer Key & Explanations</div>
+      ${review}
+    </div>`;
+}
+
+function selectAnswer(i) { if (!state.checked[state.current]) { state.answers[state.current]=i; renderApp(); } }
+function checkAnswer()   { if (state.answers[state.current]!==null) { state.checked[state.current]=true; renderApp(); } }
+function goNext()  { if (state.current<state.questions.length-1) { state.current++; renderApp(); } }
+function goPrev()  { if (state.current>0) { state.current--; renderApp(); } }
+function jumpTo(i) { state.current=i; renderApp(); }
+function showResult() { state.screen='result'; renderApp(); }
+
+renderApp();
+</script>
+</body>
+</html>
