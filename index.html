@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Quiz Set 1 — สกร. อำเภอโนนสัง ม.ต้น</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #1A237E; --primary-dark: #0D1642; --primary-light: #E8EAF6;
+    --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #97C459;
+    --red: #A32D2D; --red-light: #FCEBEB; --red-mid: #F09595;
+    --amber-light: #FAEEDA; --amber: #633806;
+    --gray-bg: #f5f4f0; --gray-card: #fff; --gray-border: #e0e0e0;
+    --text: #1a1a1a; --text-muted: #666;
+  }
+  body { font-family: 'Sarabun', sans-serif; background: var(--gray-bg); color: var(--text); padding-bottom: 40px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 16px; }
+  .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 16px; padding: 24px; color: #fff; margin-bottom: 16px; position: relative; overflow: hidden; }
+  .header::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.07); }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .set-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35); padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-left: 6px; }
+  .title { font-size: 22px; font-weight: 700; margin-bottom: 5px; line-height: 1.4; }
+  .subtitle { font-size: 14px; opacity: 0.9; }
+  .card { background: var(--gray-card); border-radius: 16px; padding: 24px; border: 1px solid var(--gray-border); margin-bottom: 16px; }
+  .inp-group { margin-bottom: 16px; text-align: left; }
+  .inp-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+  .inp-text { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--gray-border); font-family: 'Sarabun', sans-serif; font-size: 16px; background: #fafafa; }
+  .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-family: 'Sarabun', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary { background: #e0e0e0; color: var(--text); width: 48%; }
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; gap: 10px; }
+  .nav-buttons .btn-primary { width: 48%; }
+  .prog-text { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .prog-bar { background: #eee; height: 10px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+  .prog-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.3s; }
+  .q-badge { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .q-num-circle { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); font-size: 13px; font-weight: 700; margin-right: 8px; vertical-align: middle; flex-shrink: 0; }
+  .q-text { font-size: 17px; font-weight: 600; margin-bottom: 16px; line-height: 1.8; display: flex; align-items: flex-start; gap: 4px; }
+  .q-passage { background: #EEEEEE; border-left: 4px solid var(--primary); border-radius: 0 10px 10px 0; padding: 14px 16px; font-size: 15px; line-height: 2; color: #222; margin-bottom: 16px; }
+  .q-dialogue { background: #E8EAF6; border-radius: 12px; padding: 14px 16px; font-size: 15px; line-height: 2.2; color: #222; margin-bottom: 16px; border: 1px solid #C5CAE9; }
+  .q-poem { background: #EEEEEE; border-left: 4px solid var(--primary); border-radius: 0 10px 10px 0; padding: 14px 20px; font-size: 15px; line-height: 2.4; color: #222; margin-bottom: 16px; font-style: italic; }
+  .spkr { font-weight: 700; color: var(--primary-dark); }
+  .choice { display: flex; align-items: center; background: #fff; border: 2px solid var(--gray-border); padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; font-size: 15px; font-family: 'Sarabun', sans-serif; text-align: left; transition: 0.2s; width: 100%; }
+  .choice:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+  .choice.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+  .choice.correct { border-color: var(--green); background: var(--green-light); color: var(--green); font-weight: 600; }
+  .choice.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); font-weight: 600; }
+  .choice:disabled { cursor: not-allowed; }
+  .c-let { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 50%; margin-right: 12px; font-weight: 700; font-size: 13px; flex-shrink: 0; transition: 0.2s; }
+  .choice.selected .c-let { background: var(--primary); color: #fff; }
+  .choice.correct .c-let { background: var(--green); color: #fff; }
+  .choice.wrong .c-let { background: var(--red); color: #fff; }
+  .feedback { padding: 16px; border-radius: 12px; font-size: 14px; line-height: 1.7; margin-top: 16px; }
+  .feedback.ok { background: var(--green-light); border: 1px solid var(--green-mid); color: #1f3a09; }
+  .feedback.no { background: var(--red-light); border: 1px solid var(--red-mid); color: #521717; }
+  .fb-explain { display: block; margin-top: 6px; font-size: 13px; opacity: 0.85; }
+  .dot-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; justify-content: center; }
+  .dot { width: 32px; height: 32px; border-radius: 8px; border: none; font-family: 'Sarabun', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; background: #e0e0e0; color: var(--text); transition: 0.15s; }
+  .dot.active { background: var(--primary); color: #fff; transform: scale(1.1); }
+  .dot.ok { background: var(--green); color: #fff; }
+  .dot.no { background: var(--red); color: #fff; }
+  .cert-header { font-size: 16px; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+  .cert-name { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .cert-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .score-big { font-size: 56px; font-weight: 700; color: var(--primary); line-height: 1; }
+  .score-denom { font-size: 20px; color: var(--text-muted); margin-bottom: 8px; }
+  .grade-pill { display: inline-block; padding: 5px 20px; border-radius: 99px; font-size: 14px; font-weight: 700; }
+  .grade-A { background: var(--green-light); color: var(--green); }
+  .grade-B { background: var(--primary-light); color: var(--primary-dark); }
+  .grade-C { background: var(--amber-light); color: var(--amber); }
+  .grade-D { background: var(--red-light); color: var(--red); }
+  .feedback-box { background: var(--primary-light); border: 1px solid #9FA8DA; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.7; color: var(--primary-dark); margin-bottom: 20px; text-align: left; }
+  .grid-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+  .stat-box { background: #f9f9f9; padding: 16px 10px; border-radius: 12px; text-align: center; border: 1px solid var(--gray-border); }
+  .stat-num { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .slbl { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .review-title { font-size: 17px; font-weight: 700; padding-bottom: 12px; border-bottom: 1px solid var(--gray-border); margin-bottom: 14px; }
+  .review-item { padding: 14px 0; border-bottom: 1px solid var(--gray-border); text-align: left; }
+  .review-item:last-child { border-bottom: none; }
+  .r-q { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+  .r-a { font-size: 14px; margin-bottom: 4px; }
+  .r-exp { font-size: 13px; color: var(--text-muted); background: #f5f5f5; padding: 10px; border-radius: 8px; margin-top: 8px; line-height: 1.7; }
+  .ri-tick { width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .ri-ok { background: var(--green-light); color: var(--green); }
+  .ri-no { background: var(--red-light); color: var(--red); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <span class="badge">N-NET • สกร. อำเภอโนนสัง • ม.ต้น</span>
+      <span class="set-badge">Set 1</span>
+    </div>
+    <div class="title">🌏 English Quiz — ชุดที่ 1</div>
+    <div class="subtitle" id="subtitle-text">ระดับประยุกต์ใช้ — สุ่มข้อสอบและวิเคราะห์ผลรายบุคคล</div>
+  </div>
+  <div id="app"></div>
+</div>
+<script>
+const database = [
+  {
+    cat: "Reading Comprehension",
+    ptype: "passage",
+    passage: "Most teenagers spend several hours a day on social media. While it helps them stay connected with friends, spending too much time online can lead to poor sleep, anxiety, and reduced focus on schoolwork. Health experts recommend that young people should take regular breaks from screens and spend more time on physical activities or face-to-face conversations.",
+    q: "What is the MAIN PURPOSE of this passage?",
+    choices: [
+      "To warn about the negative effects of too much social media use",
+      "To encourage teenagers to use social media more",
+      "To explain how social media was invented",
+      "To compare different types of social media platforms"
+    ],
+    a: 0,
+    exp: "Distractor B is tempting because the passage mentions benefits, but the overall tone warns about excessive use and recommends limits. The main purpose = warn about negative effects + offer advice."
+  },
+  {
+    cat: "Reading Comprehension",
+    ptype: "passage",
+    passage: "Nida has been working at the same bakery for three years. Every morning she arrives at 5 a.m. to prepare fresh bread and pastries. Her customers love her chocolate croissants so much that they often sell out by 8 a.m. Last month, a food magazine featured her bakery as 'the best hidden gem in town.'",
+    q: "Which statement can be INFERRED from the passage?",
+    choices: [
+      "Nida's bakery is popular but not well-known to everyone yet",
+      "Nida opens her bakery at 8 a.m. every day",
+      "The food magazine gave Nida a negative review",
+      "Nida learned baking from her mother"
+    ],
+    a: 0,
+    exp: "'Hidden gem' implies the bakery is excellent but not yet widely discovered. B is wrong (she ARRIVES at 5am, not opens at 8am — careful reading). C contradicts 'best hidden gem.' D is not mentioned."
+  },
+  {
+    cat: "Vocabulary in Context",
+    ptype: "passage",
+    passage: "The scientist's discovery was so remarkable that it changed the entire field of medicine.",
+    q: "The word 'remarkable' is CLOSEST in meaning to:",
+    choices: [
+      "Extraordinary",
+      "Ordinary",
+      "Dangerous",
+      "Familiar"
+    ],
+    a: 0,
+    exp: "'Remarkable' means worthy of attention; extraordinary. Distractor B (ordinary) is the antonym. C and D don't fit the positive context of changing an entire field."
+  },
+  {
+    cat: "Grammar — Tenses",
+    ptype: "none",
+    passage: "",
+    q: "Choose the sentence with the CORRECT tense:",
+    choices: [
+      "By the time we arrived, the concert had already started.",
+      "By the time we arrived, the concert already started.",
+      "By the time we arrived, the concert has already started.",
+      "By the time we arrive, the concert had already started."
+    ],
+    a: 0,
+    exp: "'By the time + past simple' requires Past Perfect (had + V3) for the action completed before another past event. A is correct: 'arrived' (Simple Past) + 'had already started' (Past Perfect)."
+  },
+  {
+    cat: "Grammar — Conditionals",
+    ptype: "none",
+    passage: "",
+    q: "If I ______ harder last year, I ______ the scholarship.",
+    choices: [
+      "had studied / would have won",
+      "studied / would win",
+      "study / will win",
+      "had studied / would win"
+    ],
+    a: 0,
+    exp: "This is a Type 3 Conditional (unreal past): If + Past Perfect, would have + V3. It expresses regret about a past situation that didn't happen. D is a common trap mixing Type 2 and Type 3."
+  },
+  {
+    cat: "Grammar — Passive Voice",
+    ptype: "none",
+    passage: "",
+    q: "The company ______ over 500 employees every year.",
+    choices: [
+      "trains",
+      "is trained",
+      "are trained",
+      "has been trained"
+    ],
+    a: 0,
+    exp: "The subject 'the company' is performing the action (active voice), not receiving it. 'The company trains' = active. Distractors B/C/D use passive forms, but 'the company' is the agent, not the recipient."
+  },
+  {
+    cat: "Dialogue & Communication",
+    ptype: "dialogue",
+    passage: '<span class="spkr">Manager:</span> "I need this report finished by Friday. Can you handle it?"\n<span class="spkr">Employee:</span> "I have three other deadlines this week, but I\'ll do my best."\n<span class="spkr">Manager:</span> "If you need help, just let me know."',
+    q: "What does the employee's response suggest?",
+    choices: [
+      "She is willing to try despite being busy, but is hinting that she may need support",
+      "She is refusing the manager's request politely",
+      "She is confident she can complete all tasks without any problem",
+      "She is asking for a deadline extension"
+    ],
+    a: 0,
+    exp: "'I have three other deadlines' = she's busy (hint for help). 'I'll do my best' = she agrees to try. This is indirect communication — not a direct refusal (B), not full confidence (C), not a direct request for extension (D)."
+  },
+  {
+    cat: "Dialogue & Communication",
+    ptype: "dialogue",
+    passage: '<span class="spkr">Tom:</span> "Would you mind closing the window? It\'s a bit cold."\n<span class="spkr">Sara:</span> "Not at all."',
+    q: "What does Sara's response 'Not at all' mean?",
+    choices: [
+      "She is happy to close the window",
+      "She refuses to close the window",
+      "She doesn't understand Tom's request",
+      "She wants Tom to close it himself"
+    ],
+    a: 0,
+    exp: "'Would you mind + V-ing?' is a polite request. 'Not at all' = No, I don't mind = I'm happy to do it. This is a classic trap: 'Not at all' sounds negative but means agreement/willingness."
+  },
+  {
+    cat: "Vocabulary — Word Forms",
+    ptype: "none",
+    passage: "",
+    q: "Choose the correct form: 'Regular exercise can greatly ______ your mental health.'",
+    choices: [
+      "improve",
+      "improvement",
+      "improved",
+      "improving"
+    ],
+    a: 0,
+    exp: "After a modal verb (can), use the base form (infinitive without 'to'). 'Can improve' ✓. Distractor C (improved) is past tense/adjective — common error. D (improving) needs 'be' before it for continuous."
+  },
+  {
+    cat: "Reading — Inference",
+    ptype: "passage",
+    passage: "The small café had no Wi-Fi, no power outlets, and the owner asked customers to keep their voices down. Despite this, the place was always full, with people reading books or quietly talking over coffee.",
+    q: "What can we infer about the customers of this café?",
+    choices: [
+      "They value a quiet, relaxed atmosphere over digital convenience",
+      "They are angry about the lack of Wi-Fi",
+      "They prefer cafés with modern technology",
+      "The owner forces customers to be silent"
+    ],
+    a: 0,
+    exp: "The café lacks modern amenities YET is always full. This contrast tells us customers CHOOSE to go there — implying they prefer the quiet atmosphere. B contradicts the fact they keep coming. D misreads 'asked' as 'forced'."
+  },
+  {
+    cat: "Grammar — Reported Speech",
+    ptype: "none",
+    passage: "",
+    q: "She said, 'I will call you tomorrow.' → She told me that she ______ me the following day.",
+    choices: [
+      "would call",
+      "will call",
+      "called",
+      "had called"
+    ],
+    a: 0,
+    exp: "In reported speech, 'will' → 'would', and 'tomorrow' → 'the following day/the next day'. B is wrong (no backshift). C changes the meaning entirely. D (Past Perfect) is used when the original verb was already past."
+  },
+  {
+    cat: "Grammar — Articles",
+    ptype: "none",
+    passage: "",
+    q: "She is ______ university student who wants to become ______ engineer.",
+    choices: [
+      "a / an",
+      "an / an",
+      "a / a",
+      "the / an"
+    ],
+    a: 0,
+    exp: "'University' begins with a consonant SOUND /juː/, so use 'a'. 'Engineer' begins with a vowel SOUND /ɛ/, so use 'an'. Common trap: people see 'u' and use 'an' — but English articles depend on SOUND, not spelling."
+  },
+  {
+    cat: "Vocabulary — Collocations",
+    ptype: "none",
+    passage: "",
+    q: "Which collocation is CORRECT?",
+    choices: [
+      "make a decision",
+      "do a decision",
+      "take a mistake",
+      "make a progress"
+    ],
+    a: 0,
+    exp: "Fixed collocations: make a decision ✓ / make a mistake ✓ / make progress (no article) ✓ / do homework ✓. Distractor B 'do a decision' and C 'take a mistake' are unnatural. D needs no article: 'make progress'."
+  },
+  {
+    cat: "Reading — Text Type",
+    ptype: "passage",
+    passage: "INGREDIENTS: 200g flour, 2 eggs, 100ml milk, 50g butter\nMETHOD: Mix flour and eggs. Add milk gradually. Melt butter and stir in. Cook on low heat for 20 minutes.",
+    q: "What type of text is this, and what is its main purpose?",
+    choices: [
+      "A recipe — to give instructions for making food",
+      "A science report — to explain a chemical experiment",
+      "An advertisement — to sell cooking ingredients",
+      "A story — to entertain readers about cooking"
+    ],
+    a: 0,
+    exp: "Key features: ingredients list + step-by-step method + imperative verbs (Mix, Add, Cook) = recipe / instructional text. B is tempting if you only see 'method', but there are no measurements of chemicals or scientific terms."
+  },
+  {
+    cat: "Grammar — Relative Clauses",
+    ptype: "none",
+    passage: "",
+    q: "The teacher ______ taught us last year has won a national award.",
+    choices: [
+      "who",
+      "which",
+      "whose",
+      "whom"
+    ],
+    a: 0,
+    exp: "'Who' = relative pronoun for people as SUBJECT of the relative clause. 'Which' is for things. 'Whose' shows possession. 'Whom' is for people as OBJECT (e.g. the teacher whom I respect). Here 'taught' needs a subject → 'who'."
+  },
+  {
+    cat: "Vocabulary — Prefixes & Suffixes",
+    ptype: "none",
+    passage: "",
+    q: "What does the word 'irreplaceable' mean?",
+    choices: [
+      "Cannot be replaced or substituted",
+      "Can be replaced easily",
+      "Has been replaced already",
+      "Will be replaced in the future"
+    ],
+    a: 0,
+    exp: "ir- = not (prefix for words starting with 'r') / replace = substitute / -able = capable of. So: ir+replace+able = not capable of being replaced. Compare: irresponsible, irregular, irrelevant."
+  },
+  {
+    cat: "Writing — Cohesion",
+    ptype: "none",
+    passage: "",
+    q: "Choose the sentence that BEST connects these two ideas:\n'The weather was terrible.' + 'We enjoyed the trip.'",
+    choices: [
+      "Although the weather was terrible, we enjoyed the trip.",
+      "The weather was terrible, so we enjoyed the trip.",
+      "The weather was terrible because we enjoyed the trip.",
+      "The weather was terrible, and we enjoyed the trip."
+    ],
+    a: 0,
+    exp: "'Although' expresses contrast — two opposite ideas. B 'so' implies cause-effect (terrible weather CAUSED enjoyment — illogical). C 'because' reverses cause-effect. D 'and' adds without showing contrast."
+  },
+  {
+    cat: "Dialogue & Communication",
+    ptype: "dialogue",
+    passage: '<span class="spkr">Mia:</span> "I\'m thinking of studying abroad. What do you think?"\n<span class="spkr">James:</span> "That sounds exciting! Have you looked into scholarships?"',
+    q: "James's response shows that he is:",
+    choices: [
+      "Supportive and offering practical advice",
+      "Discouraging Mia from studying abroad",
+      "Changing the subject to a different topic",
+      "Criticising Mia's decision"
+    ],
+    a: 0,
+    exp: "'That sounds exciting!' = positive/supportive attitude. 'Have you looked into scholarships?' = practical follow-up advice. B/D contradict his enthusiastic tone. C is wrong — scholarships are directly related to studying abroad."
+  },
+  {
+    cat: "Grammar — Comparison",
+    ptype: "none",
+    passage: "",
+    q: "Bangkok is one of ______ cities in Southeast Asia.",
+    choices: [
+      "the most visited",
+      "the more visited",
+      "most visited",
+      "the visitedest"
+    ],
+    a: 0,
+    exp: "'One of the + superlative + plural noun' is the fixed structure. 'The most visited' ✓. B 'more visited' is comparative (for 2 things). C missing 'the'. D 'visitedest' is not a word — visited is a past participle, not a regular adjective."
+  },
+  {
+    cat: "Reading — Purpose & Tone",
+    ptype: "passage",
+    passage: "We are urgently looking for volunteers to help at the annual charity run this Saturday. Duties include setting up stalls, guiding runners, and handing out water. No experience needed — just bring your energy and a smile! Please contact us at volunteer@charityrun.org by Thursday.",
+    q: "Which best describes the TONE and PURPOSE of this text?",
+    choices: [
+      "Enthusiastic and persuasive — to recruit volunteers",
+      "Formal and informative — to report on last year's event",
+      "Sad and emotional — to ask for donations",
+      "Critical — to complain about a lack of volunteers"
+    ],
+    a: 0,
+    exp: "Tone markers: 'urgently', 'just bring your energy and a smile!' = enthusiastic/encouraging. Purpose = get people to sign up (persuasive). B is wrong (no past event data). C wrong (asks for time, not money). D wrong (no criticism)."
+  }
+];
+
+let state = { screen:'login', studentName:'', studentId:'', questions:[], answers:[], checked:[], current:0 };
+
+function shuffleArray(arr) {
+  let a = arr.slice();
+  for (let i = a.length-1; i > 0; i--) { let j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function startApp() {
+  const name = document.getElementById('s_name').value.trim();
+  if (!name) { alert('Please enter your name before starting.'); return; }
+  state.studentName = name;
+  state.studentId = document.getElementById('s_id').value || 'สกร. อำเภอโนนสัง';
+  document.getElementById('subtitle-text').innerText = 'ผู้เข้าสอบ: ' + state.studentName;
+  let shuffledDB = shuffleArray(database);
+  state.questions = shuffledDB.map(q => {
+    let correctText = q.choices[q.a];
+    let newChoices = shuffleArray(q.choices);
+    return { cat:q.cat, q:q.q, exp:q.exp, passage:q.passage, ptype:q.ptype, choices:newChoices, correctAnswer:newChoices.indexOf(correctText) };
+  });
+  state.answers = new Array(state.questions.length).fill(null);
+  state.checked = new Array(state.questions.length).fill(false);
+  state.current = 0; state.screen = 'quiz';
+  renderApp();
+}
+
+function renderApp() {
+  const app = document.getElementById('app');
+  if (state.screen==='login')  { app.innerHTML = loginHTML();  return; }
+  if (state.screen==='quiz')   { app.innerHTML = quizHTML();   return; }
+  if (state.screen==='result') { app.innerHTML = resultHTML(); return; }
+}
+
+function loginHTML() {
+  return `<div class="card" style="text-align:center;padding:40px 20px;">
+    <div style="font-size:60px;margin-bottom:10px;">🌏</div>
+    <h2 style="color:var(--primary);margin-bottom:6px;">English Quiz — Set 1</h2>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px;">ระดับมัธยมต้น • สกร. อำเภอโนนสัง<br>ระบบจะสุ่มข้อสอบและตัวเลือกใหม่ทุกครั้ง</p>
+    <div class="inp-group">
+      <label class="inp-label">ชื่อ-นามสกุล (บังคับ)</label>
+      <input type="text" id="s_name" class="inp-text" placeholder="Enter your full name">
+    </div>
+    <div class="inp-group">
+      <label class="inp-label">รหัสนักศึกษา / สังกัด</label>
+      <input type="text" id="s_id" class="inp-text" value="สกร. อำเภอโนนสัง">
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="startApp()">เริ่มทำแบบทดสอบ 🚀</button>
+  </div>`;
+}
+
+function quizHTML() {
+  const total=state.questions.length, curr=state.current;
+  const q=state.questions[curr], ans=state.answers[curr], isChecked=state.checked[curr];
+  const pct=Math.round(((curr+1)/total)*100), L=['A','B','C','D'];
+  let ctxHTML='';
+  if (q.ptype==='passage')  ctxHTML=`<div class="q-passage">${q.passage}</div>`;
+  if (q.ptype==='dialogue') ctxHTML=`<div class="q-dialogue">${q.passage.replace(/\n/g,'<br>')}</div>`;
+  if (q.ptype==='poem')     ctxHTML=`<div class="q-poem">${q.passage.replace(/\n/g,'<br>')}</div>`;
+  let choicesHTML=q.choices.map((c,i)=>{
+    let cls='choice';
+    if (isChecked) { if(i===q.correctAnswer) cls+=' correct'; else if(i===ans) cls+=' wrong'; }
+    else if (i===ans) cls+=' selected';
+    return `<button class="${cls}" ${isChecked?'disabled':''} onclick="selectAnswer(${i})"><div class="c-let">${L[i]}</div><div>${c}</div></button>`;
+  }).join('');
+  let fbHTML='';
+  if (isChecked) {
+    fbHTML = ans===q.correctAnswer
+      ? `<div class="feedback ok">✅ <strong>Correct!</strong><span class="fb-explain">💡 ${q.exp}</span></div>`
+      : `<div class="feedback no">❌ <strong>Incorrect</strong> — The correct answer is: <strong>${q.choices[q.correctAnswer]}</strong><span class="fb-explain">💡 ${q.exp}</span></div>`;
+  }
+  const navLeft=curr>0?`<button class="btn btn-secondary" onclick="goPrev()">← Back</button>`:`<div style="width:48%"></div>`;
+  let navRight='';
+  if (isChecked) {
+    navRight=curr===total-1
+      ?`<button class="btn btn-primary" onclick="showResult()">See Results 🏆</button>`
+      :`<button class="btn btn-primary" onclick="goNext()">Next →</button>`;
+  } else {
+    navRight=`<button class="btn btn-primary" ${ans===null?'disabled':''} onclick="checkAnswer()">Check Answer ✓</button>`;
+  }
+  const dots=state.questions.map((_,i)=>{
+    let cls='dot'+(i===curr?' active':state.checked[i]?(state.answers[i]===state.questions[i].correctAnswer?' ok':' no'):'');
+    return `<button class="${cls}" onclick="jumpTo(${i})">${i+1}</button>`;
+  }).join('');
+  return `
+    <div class="card" style="padding:16px 20px;">
+      <div class="prog-text"><span>Question ${curr+1} of ${total}</span><span>✅ ${state.answers.filter(a=>a!==null).length} answered</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="card">
+      <div class="q-badge">${q.cat}</div>
+      ${ctxHTML}
+      <div class="q-text"><span class="q-num-circle">${curr+1}</span>${q.q.replace(/\n/g,'<br>')}</div>
+      <div>${choicesHTML}</div>
+      ${fbHTML}
+      <div class="nav-buttons">${navLeft}${navRight}</div>
+    </div>
+    <div class="dot-nav">${dots}</div>`;
+}
+
+function resultHTML() {
+  const total=state.questions.length;
+  let score=0, catStats={};
+  state.questions.forEach((q,i)=>{
+    if (!catStats[q.cat]) catStats[q.cat]={t:0,c:0};
+    catStats[q.cat].t++;
+    if (state.answers[i]===q.correctAnswer) { score++; catStats[q.cat].c++; }
+  });
+  const pct=Math.round((score/total)*100);
+  let grade,gc,msg;
+  if (pct>=80) { grade='Excellent (A)'; gc='grade-A'; msg='Outstanding! You have strong English skills.'; }
+  else if (pct>=60) { grade='Good (B)'; gc='grade-B'; msg='Well done! Keep practising to improve further.'; }
+  else if (pct>=50) { grade='Fair (C)'; gc='grade-C'; msg='You passed. Review the explanations carefully.'; }
+  else { grade='Needs Work (D)'; gc='grade-D'; msg="Don't give up — read the explanations and try again!"; }
+  const weak=Object.entries(catStats).filter(([,v])=>v.t>0&&v.c/v.t<=0.5).map(([k])=>k);
+  const fbMsg=weak.length>0
+    ?`📉 <strong>Weak areas detected:</strong> You struggled with <strong>${weak.join(' and ')}</strong>. Focus your revision there.`
+    :`✨ <strong>Great performance!</strong> No major weak areas detected.`;
+  const today=new Date(), dateStr=`${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()+543}`;
+  const review=state.questions.map((q,i)=>{
+    const ok=state.answers[i]===q.correctAnswer, ua=state.answers[i]!==null?q.choices[state.answers[i]]:'(No answer)';
+    return `<div class="review-item">
+      <div class="r-q"><span class="ri-tick ${ok?'ri-ok':'ri-no'}">${ok?'✓':'✗'}</span>Q${i+1}: ${q.q.replace(/\n/g,' ')}</div>
+      <div class="r-a" style="color:var(--text-muted)">Your answer: ${ua}</div>
+      <div class="r-a" style="color:var(--green);font-weight:600;">✅ Answer: ${q.choices[q.correctAnswer]}</div>
+      <div class="r-exp">💡 ${q.exp}</div>
+    </div>`;
+  }).join('');
+  return `
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div class="cert-header">English Quiz Results — Set 1</div>
+      <div class="cert-name">${state.studentName}</div>
+      <div class="cert-meta">${state.studentId} | Date: ${dateStr}</div>
+      <div style="font-size:60px;margin:10px 0;">${pct>=50?'🏆':'📖'}</div>
+      <div class="score-big">${score}</div>
+      <div class="score-denom">out of ${total} (${pct}%)</div>
+      <div style="margin:16px 0;"><span class="grade-pill ${gc}">${grade}</span></div>
+      <div style="color:var(--text-muted);margin-bottom:24px;">${msg}</div>
+      <div class="feedback-box">${fbMsg}</div>
+      <div class="grid-stats">
+        <div class="stat-box"><div class="stat-num" style="color:var(--green)">${score}</div><div class="slbl">Correct</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--red)">${total-score}</div><div class="slbl">Wrong</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--primary)">${pct}%</div><div class="slbl">Score</div></div>
+      </div>
+      <button class="btn btn-primary" onclick="location.reload()">🔄 Try Again (New Shuffle)</button>
+    </div>
+    <div class="card" style="margin-top:4px;">
+      <div class="review-title">📋 Full Answer Key & Explanations</div>
+      ${review}
+    </div>`;
+}
+
+function selectAnswer(i) { if (!state.checked[state.current]) { state.answers[state.current]=i; renderApp(); } }
+function checkAnswer()   { if (state.answers[state.current]!==null) { state.checked[state.current]=true; renderApp(); } }
+function goNext()  { if (state.current<state.questions.length-1) { state.current++; renderApp(); } }
+function goPrev()  { if (state.current>0) { state.current--; renderApp(); } }
+function jumpTo(i) { state.current=i; renderApp(); }
+function showResult() { state.screen='result'; renderApp(); }
+
+renderApp();
+</script>
+</body>
+</html>
